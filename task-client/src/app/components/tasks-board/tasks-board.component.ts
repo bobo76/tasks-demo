@@ -5,9 +5,10 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { concatMap, startWith, Subject } from 'rxjs';
 
 @Component({
-  selector: 'tasks-board',
-  templateUrl: './tasks-board.component.html',
-  styleUrls: ['./tasks-board.component.scss']
+    selector: 'tasks-board',
+    templateUrl: './tasks-board.component.html',
+    styleUrls: ['./tasks-board.component.scss'],
+    standalone: false
 })
 export class TasksBoardComponent implements OnInit, AfterViewInit {
 

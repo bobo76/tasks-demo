@@ -11,9 +11,10 @@ const emptyTask: ICreateTask = {
 }
 
 @Component({
-  selector: 'add-new-task',
-  templateUrl: './add-new-task.component.html',
-  styleUrls: ['./add-new-task.component.scss']
+    selector: 'add-new-task',
+    templateUrl: './add-new-task.component.html',
+    styleUrls: ['./add-new-task.component.scss'],
+    standalone: false
 })
 export class AddNewTaskComponent implements OnInit {
 
