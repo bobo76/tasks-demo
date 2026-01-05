@@ -1,0 +1,28 @@
+$black: #000000;
+
+.ui.menu .item::before {
+    display: none;
+}
+
+.ui[class*="two column"].grid>.column:not(.row) {
+    width: fit-content;
+}
+
+.ui.two.column .column:first-child {
+    padding: 0 !important;
+}
+
+.nav__container {
+    background-color: $black;
+    padding: 2rem;
+    border-radius: 0;
+    min-height: 80px;
+
+    &--link {
+        text-decoration: none;
+
+        &:hover {
+            background-color: transparent !important;
+        }
+    }
+}

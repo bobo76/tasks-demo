@@ -1,0 +1,50 @@
+{
+  "new-tasks": [
+    {
+      "id": 1,
+      "title": "Update API documentation",
+      "description": "Review and update API documentation to reflect recent changes in endpoints and data models",
+      "status": "New"
+    },
+    {
+      "id": 2,
+      "title": "Implement dark mode",
+      "description": "Add dark mode theme support across the application with user preference persistence",
+      "status": "New"
+    },
+    {
+      "id": 3,
+      "title": "Optimize database queries",
+      "description": "Analyze and optimize slow database queries to improve overall application performance",
+      "status": "New"
+    },
+    {
+      "id": 7,
+      "title": "Set up CI/CD pipeline",
+      "description": "Configure automated testing and deployment pipeline using GitHub Actions",
+      "status": "New"
+    }
+  ],
+  "in-progress": [
+    {
+      "id": 4,
+      "title": "Add unit tests for auth",
+      "description": "Write comprehensive unit tests for authentication service and related components",
+      "status": "New"
+    },
+    {
+      "id": 5,
+      "title": "Build UI for onboarding flow",
+      "description": "Once we feel version one is ready, we need to rigorously test it both internally and externally to identify any major gaps",
+      "status": "In Progress"
+    }
+  ],
+  "done": [
+    {
+      "id": 6,
+      "title": "new task",
+      "description": "add description",
+      "status": "Done"
+    }
+  ]
+}

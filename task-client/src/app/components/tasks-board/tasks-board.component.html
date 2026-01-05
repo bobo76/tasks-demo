@@ -1,0 +1,87 @@
+<div class="ui container absolute tasks-container">
+    <div cdkDropListGroup class="ui three column doubling stackable grid tasks">
+
+        <div class="column task">
+            <div class="task-content">
+                <h3 class="ui header purple">New Tasks ({{newTasks.length}})</h3>
+
+                <div cdkDropList #newTasksList="cdkDropList" [cdkDropListData]="newTasks"
+                    [cdkDropListConnectedTo]="[inProgressList,doneList]" (cdkDropListDropped)="drop($event)">
+
+                    <div class="ui container task--group">
+                        <div *ngFor="let newTask of newTasks" cdkDrag>
+                            <div class="ui card task__card">
+                                <div class="content">
+                                    <div class="ui container">
+                                        <span class="ui right floated task__card__icon"
+                                            (click)="deleteNewTask(newTask.id); $event.stopImmediatePropagation() ">
+                                            <i class="red trash icon"></i>
+                                        </span>
+                                        <h4 class="task__title">{{ newTask.title | uppercase}}</h4>
+                                    </div>
+                                    <div class="task__description">
+                                        {{ newTask.description }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <pre>{{ newTasks | json}}</pre> -->
+
+        <div class="column task">
+            <div class="task-content">
+                <h3 class="ui header purple">In Progress ({{inProgressTasks.length}})</h3>
+
+                <div cdkDropList #inProgressList="cdkDropList" [cdkDropListData]="inProgressTasks"
+                    [cdkDropListConnectedTo]="[newTasksList,doneList]" (cdkDropListDropped)="drop($event)">
+                    <div class="ui container task--group">
+
+                        <div *ngFor="let inProgressTask of inProgressTasks" cdkDrag>
+
+                            <div class="ui card task__card">
+                                <div class="content">
+                                    <h4 class="task__title">{{ inProgressTask.title | uppercase }}</h4>
+                                    <!-- <span class="right floated">
+                                    <i class="red trash icon"></i>
+                                </span> -->
+                                    <div class="task__description">
+                                        {{ inProgressTask.description }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="column task">
+            <div class="task-content">
+                <h3 class="ui header purple">Done ({{doneTasks.length}})</h3>
+
+                <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="doneTasks"
+                    [cdkDropListConnectedTo]="[ newTasksList,inProgressList]" (cdkDropListDropped)="drop($event)">
+
+                    <div class="ui container task--group">
+                        <div *ngFor="let doneTask of doneTasks" cdkDrag>
+
+                            <div class="ui card task__card">
+                                <div class="content">
+                                    <h4 class="task__title">{{ doneTask.title | uppercase }}</h4>
+                                    <!-- <span class="right floated task__card__icon">
+                                    <i class="red trash icon"></i>
+                                </span> -->
+                                    <div class="task__description">
+                                        {{ doneTask.description }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

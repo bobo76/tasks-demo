@@ -1,0 +1,79 @@
+$light-purple: #deacf6;
+$dark-purple: #9d44ab;
+
+.form {
+
+    &--wrap {
+        background-color: #efefff99;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100vh;
+        z-index: 500;
+        width: 100%;
+        position: absolute;
+        top: 0;
+
+    }
+
+    &--inner {
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+        width: 80%;
+        max-width: 600px;
+    }
+
+    &--header {
+        color: $dark-purple;
+    }
+
+    &--content {
+        & .ui.segment {
+            padding: 2.8rem;
+            box-shadow: 26px 3px 112px 0px rgba(174, 172, 175, 0.63);
+
+        }
+
+        &__label {
+            color: $dark-purple !important;
+            display: inline !important;
+        }
+    }
+}
+
+.close.icon {
+    // margin-top: 7.2rem !important;x
+    padding: 1.2rem 2.4rem;
+}
+
+.ui.form input:focus,
+.ui.form textarea:focus {
+    border: 1.2px solid $dark-purple;
+}
+
+.ui.form input,
+.ui.form textarea {
+    color: #54245a;
+}
+
+.ui.form input::placeholder,
+.ui.form textarea::placeholder {
+    color: $light-purple;
+}
+
+
+.text-error {
+    display: block;
+}
+
+.text-error,
+.text-error-indicator {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #ff0000;
+}
+
+.text-error-indicator {
+    margin-left: 4px;
+}

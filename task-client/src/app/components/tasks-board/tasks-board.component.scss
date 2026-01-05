@@ -1,0 +1,68 @@
+$lighter-purple: #f5f0f7;
+$dark-purple: #9d44ab;
+
+
+.tasks-container {
+    // position: absolute;
+    width: 100%;
+    padding: 2rem 5.2rem;
+}
+
+.task {
+
+    &--group {
+        min-height: 200px;
+    }
+
+    &__card {
+
+        background-color: $lighter-purple;
+        width: auto;
+        height: auto;
+        min-height: 200px;
+        box-shadow: none;
+        color: #323131;
+        margin-bottom: 2rem !important;
+        padding: 0 1.2rem;
+        cursor: move;
+
+        &:hover {
+            border: 2px solid $dark-purple;
+            box-shadow: 0 5px 5px -3px rgba(174, 172, 175, 0.166),
+                0 8px 10px 1px rgba(147, 145, 147, 0.14),
+                0 3px 14px 2px rgba(108, 108, 108, 0.12);
+        }
+
+        &__icon {
+            cursor: pointer;
+        }
+    }
+
+    &__title {
+        margin-bottom: 1.2rem;
+    }
+
+    &__description {}
+
+
+}
+
+.ui.header {
+    padding-bottom: 1.2rem;
+}
+
+.cdk-drag-preview {
+    box-sizing: border-box;
+    border-radius: 4px;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+        0 8px 10px 1px rgba(0, 0, 0, 0.14),
+        0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+    opacity: 0;
+}
+
+.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
