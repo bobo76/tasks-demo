@@ -10,28 +10,27 @@
                     <div class="field form--content__field">
                         <label for="task-title" class="form--content__label">Title</label>
                         <span class="text-error-indicator">*</span>
-                        <span class="text-error"
-                            *ngIf="addNewTask.controls['title']?.touched && addNewTask.controls['title']?.invalid">Enter
-                            title of task</span>
+                        @if (addNewTask.controls['title']?.touched && addNewTask.controls['title']?.invalid) {
+                            <span class="text-error">Enter title of task</span>
+                        }
                         <div class=" ui left icon input form--content__input">
                             <i class="marker purple icon"></i>
                             <input type="text" id="task-title" formControlName="title"
-                                placeholder="e.g. Go for morning run" maxlength="15">
+                                placeholder="e.g. Go for morning run" maxlength="100">
                         </div>
                     </div>
                     <div class="field form--content__field">
                         <label for="task-description" class="form--content__label">Description</label>
-                        <span class="text-error-indicator">*</span>
-                        <span class="text-error"
-                            *ngIf="addNewTask.controls['description']?.touched && addNewTask.controls['description']?.invalid">Enter
-                            title of task</span>
+                        @if (addNewTask.controls['description']?.touched && addNewTask.controls['description']?.invalid) {
+                            <span class="text-error">Description exceeds maximum length</span>
+                        }
                         <div class="ui corner labeled input form--content__input">
                             <div class="ui corner label">
                                 <i class="tasks purple icon"></i>
                             </div>
                             <textarea formControlName="description" id="task-description"
                                 placeholder="e.g. Run for about 45 minutes, up to Soso Street."
-                                maxlength="15"></textarea>
+                                maxlength="500"></textarea>
                         </div>
                     </div>
                     <button class="ui fluid purple submit button" [disabled]="addNewTask.invalid">Save Task</button>

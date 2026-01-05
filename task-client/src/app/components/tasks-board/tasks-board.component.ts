@@ -1,45 +1,27 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ICreateTask } from 'src/app/common/models/task-manager.model';
 import { TasksService } from 'src/app/common/services/tasks.service';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { concatMap, startWith, Subject } from 'rxjs';
+import { CdkDragDrop, DragDropModule, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'tasks-board',
-    templateUrl: './tasks-board.component.html',
-    styleUrls: ['./tasks-board.component.scss'],
-    standalone: false
+  selector: 'tasks-board',
+  templateUrl: './tasks-board.component.html',
+  styleUrls: ['./tasks-board.component.scss'],
+  standalone: true,
+  imports: [CommonModule, DragDropModule]
 })
-export class TasksBoardComponent implements OnInit, AfterViewInit {
+export class TasksBoardComponent implements OnInit {
 
-  columns: any = [];
-  column: any;
+  private tasksService = inject(TasksService);
 
-  tasks: any = [];
-  task: any;
-
-  newTasks: ICreateTask[] = [];
-  inProgressTasks: ICreateTask[] = [];
-  doneTasks: ICreateTask[] = [];
-
-  constructor(private tasksService: TasksService) {
-  }
+  newTasks = signal<ICreateTask[]>([]);
+  inProgressTasks = signal<ICreateTask[]>([]);
+  doneTasks = signal<ICreateTask[]>([]);
 
   ngOnInit(): void {
     this.fetchAllTasks();
   }
-
-  ngAfterViewInit(): void {
-  }
-
-  private readonly addTask$ = new Subject();
-
-  newTasks$ = this.addTask$.pipe(
-    startWith(''),
-    concatMap(() => {
-      return this.tasksService.allNewTasks();
-    })
-  )
 
 
   fetchAllTasks() {
@@ -50,58 +32,46 @@ export class TasksBoardComponent implements OnInit, AfterViewInit {
 
   fetchNewTasks() {
     this.tasksService.allNewTasks()
-      .subscribe((result: any) => this.newTasks = result);
+      .subscribe((result: any) => this.newTasks.set(result));
   }
 
   fetchInProgressTasks() {
     this.tasksService.allInProgress()
-      .subscribe((result: any) => this.inProgressTasks = result);
+      .subscribe((result: any) => this.inProgressTasks.set(result));
   }
 
   fetchDoneTasks() {
     this.tasksService.allDone()
-      .subscribe((result: any) => this.doneTasks = result);
+      .subscribe((result: any) => this.doneTasks.set(result));
   }
 
   deleteNewTask(newTaskId: string) {
     this.tasksService.deleteNewTask(newTaskId)
-      .subscribe((result: any) => this.fetchNewTasks());
-  }
-
-  updateNewTasks() {
-
-  }
-
-  updateInProgressTasks() {
-
-  }
-
-  updateDoneTasks() {
-
+      .subscribe(() => this.fetchNewTasks());
   }
 
   drop(event: CdkDragDrop<ICreateTask[]>) {
     if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
+      const updatedList = [...event.container.data];
+      moveItemInArray(updatedList, event.previousIndex, event.currentIndex);
+      this.updateSignalFromContainer(event.container.id, updatedList);
     } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
+      const sourceList = [...event.previousContainer.data];
+      const targetList = [...event.container.data];
+      transferArrayItem(sourceList, targetList, event.previousIndex, event.currentIndex);
+
+      this.updateSignalFromContainer(event.previousContainer.id, sourceList);
+      this.updateSignalFromContainer(event.container.id, targetList);
     }
-
-    // this.addTask$;
-
   }
 
-  // createTask(task: ICreateTask) {
-  //   this.tasksService.createNewTask(this.task)
-  //     .subscribe(result => this.fetchAllTasks());
-  // }
+  private updateSignalFromContainer(containerId: string, data: ICreateTask[]) {
+    if (containerId.includes('newTasks')) {
+      this.newTasks.set(data);
+    } else if (containerId.includes('inProgress')) {
+      this.inProgressTasks.set(data);
+    } else if (containerId.includes('done')) {
+      this.doneTasks.set(data);
+    }
+  }
 }
