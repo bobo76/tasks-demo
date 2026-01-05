@@ -4,13 +4,6 @@ import { Router, RouterLink } from '@angular/router';
 import { ICreateTask } from 'src/app/common/models/task-manager.model';
 import { TasksService } from 'src/app/common/services/tasks.service';
 
-const emptyTask: ICreateTask = {
-  id: '',
-  title: '',
-  description: '',
-  status: 'new'
-}
-
 @Component({
   selector: 'add-new-task',
   templateUrl: './add-new-task.component.html',
@@ -24,7 +17,6 @@ export class AddNewTaskComponent implements OnInit {
   private router = inject(Router);
   private tasksService = inject(TasksService);
 
-  task: ICreateTask = emptyTask;
   public addNewTask !: FormGroup;
 
   ngOnInit(): void {
@@ -34,24 +26,26 @@ export class AddNewTaskComponent implements OnInit {
     })
   }
 
+  addTask() {
+    if (this.addNewTask.valid) {
+      const newTask: ICreateTask = {
+        id: '', // Backend will auto-generate
+        title: this.addNewTask.value.title,
+        description: this.addNewTask.value.description || '',
+        status: 'new'
+      };
 
-  fetchNewTasks() {
-    this.tasksService.allNewTasks()
-      .subscribe((result: any) => this.newTasks = result)
-  }
-
-  addTask(task: ICreateTask) {
-    // console.log(this.addNewTask.value)
-    this.task = this.addNewTask.value;
-    this.createTask(task);
-    console.log(task, 'task added');
-    this.backToDashboard();
-    // this.addNewTask.reset();
-  }
-
-  createTask(task: ICreateTask) {
-    this.tasksService.createNewTask(this.task)
-      .subscribe((result: any) => this.fetchNewTasks());
+      this.tasksService.createNewTask(newTask).subscribe({
+        next: (result) => {
+          console.log('Task created successfully:', result);
+          this.addNewTask.reset();
+          this.backToDashboard();
+        },
+        error: (error) => {
+          console.error('Error creating task:', error);
+        }
+      });
+    }
   }
 
   backToDashboard() {

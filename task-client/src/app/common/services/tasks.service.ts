@@ -1,68 +1,59 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ICreateTask } from '../models/task-manager.model';
 
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'http://localhost:8090/api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TasksService {
-  model1 = 'new-tasks';
-  model2 = 'in-progress';
-  model3 = 'done';
 
   constructor(private http: HttpClient) { }
 
-
-  allNewTasks() {
-    return this.http.get(this.getNewTasks());
+  // Get all tasks
+  getAllTasks(): Observable<ICreateTask[]> {
+    return this.http.get<ICreateTask[]>(`${BASE_URL}/tasks`);
   }
 
-  allInProgress() {
-    return this.http.get(this.getInProgress());
+  // Get tasks by status
+  getTasksByStatus(status: string): Observable<ICreateTask[]> {
+    return this.http.get<ICreateTask[]>(`${BASE_URL}/tasks?status=${status}`);
   }
 
-  allDone() {
-    return this.http.get(this.getDone());
+  // Get tasks for "New Tasks" column
+  allNewTasks(): Observable<ICreateTask[]> {
+    return this.getTasksByStatus('new');
   }
 
-
-
-  find(id: any) {
-    return this.http.get(this.getNewTasksWithID(id));
+  // Get tasks for "In Progress" column
+  allInProgress(): Observable<ICreateTask[]> {
+    return this.getTasksByStatus('in-progress');
   }
 
-  createNewTask(task: any) {
-    return this.http.post(this.getNewTasks(), task);
+  // Get tasks for "Done" column
+  allDone(): Observable<ICreateTask[]> {
+    return this.getTasksByStatus('done');
   }
 
-
-
-  update(task: { id: any }) {
-    return this.http.put(this.getNewTasksWithID(task.id), task);
+  // Get task by ID
+  find(id: number): Observable<ICreateTask> {
+    return this.http.get<ICreateTask>(`${BASE_URL}/tasks/${id}`);
   }
 
-  deleteNewTask(id: any) {
-    return this.http.delete(this.getNewTasksWithID(id))
+  // Create new task
+  createNewTask(task: ICreateTask): Observable<ICreateTask> {
+    return this.http.post<ICreateTask>(`${BASE_URL}/tasks`, task);
   }
 
-
-
-  private getNewTasks() {
-    return `${BASE_URL}/${this.model1}`
+  // Update task
+  update(id: number, task: ICreateTask): Observable<ICreateTask> {
+    return this.http.put<ICreateTask>(`${BASE_URL}/tasks/${id}`, task);
   }
 
-  private getInProgress() {
-    return `${BASE_URL}/${this.model2}`
-  }
-
-  private getDone() {
-    return `${BASE_URL}/${this.model3}`
-  }
-
-
-
-  private getNewTasksWithID(id: any) {
-    return `${BASE_URL}/${this.model1}/${id}`
+  // Delete task
+  deleteNewTask(id: number): Observable<void> {
+    return this.http.delete<void>(`${BASE_URL}/tasks/${id}`);
   }
 }
