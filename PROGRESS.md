@@ -11,6 +11,7 @@ This document tracks the implementation progress of the task management applicat
 | Setup Spring Boot project in task-api/ | Completed | 2026-01-05 11:06:36 | 2026-01-05 11:07:15 | ~1 min |
 | Implement backend entity, repo, service, controller | Completed | 2026-01-05 11:07:15 | 2026-01-05 11:08:18 | ~1 min |
 | Configure CORS and data initialization | Completed | 2026-01-05 11:08:18 | 2026-01-05 11:08:56 | ~1 min |
+| Write backend controller and integration tests | Completed | 2026-01-05 11:08:56 | 2026-01-05 11:10:27 | ~2 min |
 
 ## Notes
 
