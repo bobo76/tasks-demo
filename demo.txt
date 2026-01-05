@@ -1,0 +1,7 @@
+I need to have a task-client
+run npm install
+npm start and demo d&d + demo bug
+
+Use skill interview on @plan.md, Write plan in : TECHNICAL_SPEC.md
+
+Follow @TECHNICAL_SPEC.md, do parallel work when possible, write progress in PROGRESS.md. Write reel start time, end time and total time per task
