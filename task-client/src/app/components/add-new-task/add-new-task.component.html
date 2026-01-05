@@ -2,7 +2,7 @@
     <i class="large close icon" [routerLink]="['/']"></i>
     <div class="ui center aligned column form--inner">
         <div class="ui container">
-            <form class="ui large form form--content" [formGroup]="addNewTask" (submit)="addTask(task)" novalidate>
+            <form class="ui large form form--content" [formGroup]="addNewTaskForm" (submit)="addTask()" novalidate>
                 <div class="ui segment">
                     <h2 class="ui header form--header">
                         Add New Task
@@ -11,30 +11,30 @@
                         <label for="task-title" class="form--content__label">Title</label>
                         <span class="text-error-indicator">*</span>
                         <span class="text-error"
-                            *ngIf="addNewTask.controls['title']?.touched && addNewTask.controls['title']?.invalid">Enter
+                            *ngIf="addNewTaskForm.controls['title']?.touched && addNewTaskForm.controls['title']?.invalid">Enter
                             title of task</span>
                         <div class=" ui left icon input form--content__input">
                             <i class="marker purple icon"></i>
                             <input type="text" id="task-title" formControlName="title"
-                                placeholder="e.g. Go for morning run" maxlength="15">
+                                placeholder="e.g. Go for morning run" maxlength="100">
                         </div>
                     </div>
                     <div class="field form--content__field">
                         <label for="task-description" class="form--content__label">Description</label>
                         <span class="text-error-indicator">*</span>
                         <span class="text-error"
-                            *ngIf="addNewTask.controls['description']?.touched && addNewTask.controls['description']?.invalid">Enter
-                            title of task</span>
+                            *ngIf="addNewTaskForm.controls['description']?.touched && addNewTaskForm.controls['description']?.invalid">Enter
+                            description of task</span>
                         <div class="ui corner labeled input form--content__input">
                             <div class="ui corner label">
                                 <i class="tasks purple icon"></i>
                             </div>
                             <textarea formControlName="description" id="task-description"
                                 placeholder="e.g. Run for about 45 minutes, up to Soso Street."
-                                maxlength="15"></textarea>
+                                maxlength="500"></textarea>
                         </div>
                     </div>
-                    <button class="ui fluid purple submit button" [disabled]="addNewTask.invalid">Save Task</button>
+                    <button class="ui fluid purple submit button" [disabled]="addNewTaskForm.invalid || disabled">Save Task</button>
                 </div>
             </form>
         </div>

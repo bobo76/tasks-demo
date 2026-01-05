@@ -1,13 +1,16 @@
-export interface IReadTask {
+export interface ITask {
     id: string;
     title: string;
     description: string;
 }
 
-
 export interface ICreateTask {
-    id: string,
-    title: string,
-    description: string,
-    done?: boolean;
+    title: string;
+    description: string;
+}
+
+export enum TaskStatus {
+    NEW = 'new-tasks',
+    IN_PROGRESS = 'in-progress',
+    DONE = 'done'
 }

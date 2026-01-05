@@ -14,7 +14,7 @@
                                 <div class="content">
                                     <div class="ui container">
                                         <span class="ui right floated task__card__icon"
-                                            (click)="deleteNewTask(newTask.id); $event.stopImmediatePropagation() ">
+                                            (click)="deleteTask(newTask.id, TaskStatus.NEW); $event.stopImmediatePropagation() ">
                                             <i class="red trash icon"></i>
                                         </span>
                                         <h4 class="task__title">{{ newTask.title | uppercase}}</h4>

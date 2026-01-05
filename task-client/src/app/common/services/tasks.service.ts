@@ -1,5 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { ITask, ICreateTask, TaskStatus } from '../models/task-manager.model';
 
 const BASE_URL = 'http://localhost:3000';
 
@@ -7,62 +10,35 @@ const BASE_URL = 'http://localhost:3000';
   providedIn: 'root'
 })
 export class TasksService {
-  model1 = 'new-tasks';
-  model2 = 'in-progress';
-  model3 = 'done';
-
   constructor(private http: HttpClient) { }
 
-
-  allNewTasks() {
-    return this.http.get(this.getNewTasks());
+  getAllTasksByStatus(status: TaskStatus): Observable<ITask[]> {
+    return this.http.get<ITask[]>(`${BASE_URL}/${status}`);
   }
 
-  allInProgress() {
-    return this.http.get(this.getInProgress());
+  getTaskById(id: string, status: TaskStatus): Observable<ITask> {
+    return this.http.get<ITask>(`${BASE_URL}/${status}/${id}`);
   }
 
-  allDone() {
-    return this.http.get(this.getDone());
+  createTask(task: ICreateTask, status: TaskStatus = TaskStatus.NEW): Observable<ITask> {
+    return this.http.post<ITask>(`${BASE_URL}/${status}`, task);
   }
 
-
-
-  find(id: any) {
-    return this.http.get(this.getNewTasksWithID(id));
+  updateTask(task: ITask, status: TaskStatus): Observable<ITask> {
+    return this.http.put<ITask>(`${BASE_URL}/${status}/${task.id}`, task);
   }
 
-  createNewTask(task: any) {
-    return this.http.post(this.getNewTasks(), task);
+  deleteTask(id: string, status: TaskStatus): Observable<void> {
+    return this.http.delete<void>(`${BASE_URL}/${status}/${id}`);
   }
 
-
-
-  update(task: { id: any }) {
-    return this.http.put(this.getNewTasksWithID(task.id), task);
-  }
-
-  deleteNewTask(id: any) {
-    return this.http.delete(this.getNewTasksWithID(id))
-  }
-
-
-
-  private getNewTasks() {
-    return `${BASE_URL}/${this.model1}`
-  }
-
-  private getInProgress() {
-    return `${BASE_URL}/${this.model2}`
-  }
-
-  private getDone() {
-    return `${BASE_URL}/${this.model3}`
-  }
-
-
-
-  private getNewTasksWithID(id: any) {
-    return `${BASE_URL}/${this.model1}/${id}`
+  moveTask(task: ITask, fromStatus: TaskStatus, toStatus: TaskStatus): Observable<ITask> {
+    return this.http.delete<void>(`${BASE_URL}/${fromStatus}/${task.id}`)
+      .pipe(
+        switchMap(() => this.http.post<ITask>(`${BASE_URL}/${toStatus}`, {
+          title: task.title,
+          description: task.description
+        }))
+      );
   }
 }

@@ -1,96 +1,74 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { ICreateTask } from 'src/app/common/models/task-manager.model';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ITask, TaskStatus } from 'src/app/common/models/task-manager.model';
 import { TasksService } from 'src/app/common/services/tasks.service';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { concatMap, startWith, Subject } from 'rxjs';
+import { Subject, forkJoin } from 'rxjs';
+import { takeUntil, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'tasks-board',
   templateUrl: './tasks-board.component.html',
   styleUrls: ['./tasks-board.component.scss']
 })
-export class TasksBoardComponent implements OnInit, AfterViewInit {
+export class TasksBoardComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
 
-  columns: any = [];
-  column: any;
+  newTasks: ITask[] = [];
+  inProgressTasks: ITask[] = [];
+  doneTasks: ITask[] = [];
 
-  tasks: any = [];
-  task: any;
+  readonly TaskStatus = TaskStatus;
 
-  newTasks: ICreateTask[] = [];
-  inProgressTasks: ICreateTask[] = [];
-  doneTasks: ICreateTask[] = [];
-
-  newTask !: Task;
-  constructor(private tasksService: TasksService) {
-    this.fetchAllTasks();
-    this.fetchNewTasks();
-  }
+  constructor(private tasksService: TasksService) { }
 
   ngOnInit(): void {
-    this.fetchAllTasks()
-    this.fetchNewTasks();
-
+    this.fetchAllTasks();
   }
 
-  ngAfterViewInit(): void {
-    this.fetchNewTasks();
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-  private readonly addTask$ = new Subject();
-
-  newTasks$ = this.addTask$.pipe(
-    startWith(''),
-    concatMap(() => {
-      return this.tasksService.allNewTasks();
-    })
-  )
-
-
-  async fetchAllTasks() {
-    this.fetchNewTasks();
-    this.fetchInProgressTasks();
-    this.fetchDoneTasks();
-
+  fetchAllTasks(): void {
+    forkJoin({
+      newTasks: this.tasksService.getAllTasksByStatus(TaskStatus.NEW),
+      inProgressTasks: this.tasksService.getAllTasksByStatus(TaskStatus.IN_PROGRESS),
+      doneTasks: this.tasksService.getAllTasksByStatus(TaskStatus.DONE)
+    }).pipe(
+      takeUntil(this.destroy$),
+      catchError(error => {
+        console.error('Error fetching tasks:', error);
+        throw error;
+      })
+    ).subscribe({
+      next: (result) => {
+        this.newTasks = result.newTasks;
+        this.inProgressTasks = result.inProgressTasks;
+        this.doneTasks = result.doneTasks;
+      },
+      error: (error) => {
+        console.error('Failed to load tasks:', error);
+      }
+    });
   }
 
-  async fetchNewTasks() {
-    this.tasksService.allNewTasks()
-      .subscribe((result: any) => this.newTasks = result);
+  deleteTask(taskId: string, status: TaskStatus): void {
+    this.tasksService.deleteTask(taskId, status)
+      .pipe(
+        takeUntil(this.destroy$),
+        catchError(error => {
+          console.error('Error deleting task:', error);
+          throw error;
+        })
+      )
+      .subscribe({
+        next: () => this.fetchAllTasks(),
+        error: (error) => console.error('Failed to delete task:', error)
+      });
   }
 
-  async fetchInProgressTasks() {
-    this.tasksService.allInProgress()
-      .subscribe((result: any) => this.inProgressTasks = result);
-  }
-
-  async fetchDoneTasks() {
-    this.tasksService.allDone()
-      .subscribe((result: any) => this.doneTasks = result);
-  }
-
-
-  async deleteNewTask(newTaskId: string) {
-
-    this.tasksService.deleteNewTask(newTaskId)
-      .subscribe((result: any) => this.fetchNewTasks());
-
-    console.log("DELETE TASK", newTaskId)
-  }
-
-  updateNewTasks() {
-
-  }
-
-  updateInProgressTasks() {
-
-  }
-
-  updateDoneTasks() {
-
-  }
-
-  drop(event: CdkDragDrop<ICreateTask[]>) {
+  drop(event: CdkDragDrop<ITask[]>): void {
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -98,20 +76,38 @@ export class TasksBoardComponent implements OnInit, AfterViewInit {
         event.currentIndex
       );
     } else {
+      const task = event.previousContainer.data[event.previousIndex];
+      const fromStatus = this.getStatusFromContainer(event.previousContainer.id);
+      const toStatus = this.getStatusFromContainer(event.container.id);
+
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
-        event.currentIndex,
+        event.currentIndex
       );
+
+      if (fromStatus && toStatus) {
+        this.tasksService.moveTask(task, fromStatus, toStatus)
+          .pipe(
+            takeUntil(this.destroy$),
+            catchError(error => {
+              console.error('Error moving task:', error);
+              this.fetchAllTasks();
+              throw error;
+            })
+          )
+          .subscribe({
+            error: (error) => console.error('Failed to move task:', error)
+          });
+      }
     }
-
-    // this.addTask$;
-
   }
 
-  // createTask(task: ICreateTask) {
-  //   this.tasksService.createNewTask(this.task)
-  //     .subscribe(result => this.fetchAllTasks());
-  // }
+  private getStatusFromContainer(containerId: string): TaskStatus | null {
+    if (containerId.includes('new')) return TaskStatus.NEW;
+    if (containerId.includes('inProgress')) return TaskStatus.IN_PROGRESS;
+    if (containerId.includes('done')) return TaskStatus.DONE;
+    return null;
+  }
 }
