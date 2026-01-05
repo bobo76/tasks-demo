@@ -1,0 +1,9 @@
+com/taskdemo/TaskApiApplication.class
+com/taskdemo/model/Task.class
+com/taskdemo/service/TaskService.class
+com/taskdemo/exception/GlobalExceptionHandler.class
+com/taskdemo/exception/InvalidStatusException.class
+com/taskdemo/exception/ResourceNotFoundException.class
+com/taskdemo/controller/TaskController.class
+com/taskdemo/exception/ErrorResponse.class
+com/taskdemo/repository/TaskRepository.class
