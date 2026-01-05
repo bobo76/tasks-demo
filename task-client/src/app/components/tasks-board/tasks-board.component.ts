@@ -21,20 +21,14 @@ export class TasksBoardComponent implements OnInit, AfterViewInit {
   inProgressTasks: ICreateTask[] = [];
   doneTasks: ICreateTask[] = [];
 
-  newTask !: Task;
   constructor(private tasksService: TasksService) {
-    this.fetchAllTasks();
-    this.fetchNewTasks();
   }
 
   ngOnInit(): void {
-    this.fetchAllTasks()
-    this.fetchNewTasks();
-
+    this.fetchAllTasks();
   }
 
   ngAfterViewInit(): void {
-    this.fetchNewTasks();
   }
 
   private readonly addTask$ = new Subject();
@@ -47,35 +41,30 @@ export class TasksBoardComponent implements OnInit, AfterViewInit {
   )
 
 
-  async fetchAllTasks() {
+  fetchAllTasks() {
     this.fetchNewTasks();
     this.fetchInProgressTasks();
     this.fetchDoneTasks();
-
   }
 
-  async fetchNewTasks() {
+  fetchNewTasks() {
     this.tasksService.allNewTasks()
       .subscribe((result: any) => this.newTasks = result);
   }
 
-  async fetchInProgressTasks() {
+  fetchInProgressTasks() {
     this.tasksService.allInProgress()
       .subscribe((result: any) => this.inProgressTasks = result);
   }
 
-  async fetchDoneTasks() {
+  fetchDoneTasks() {
     this.tasksService.allDone()
       .subscribe((result: any) => this.doneTasks = result);
   }
 
-
-  async deleteNewTask(newTaskId: string) {
-
+  deleteNewTask(newTaskId: string) {
     this.tasksService.deleteNewTask(newTaskId)
       .subscribe((result: any) => this.fetchNewTasks());
-
-    console.log("DELETE TASK", newTaskId)
   }
 
   updateNewTasks() {

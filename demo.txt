@@ -1,7 +1,8 @@
-I need to have a task-client
 run npm install
 npm start and demo d&d + demo bug
 
 Use skill interview on @plan.md, Write plan in : TECHNICAL_SPEC.md
 
-Follow @TECHNICAL_SPEC.md, do parallel work when possible, write progress in PROGRESS.md. Write reel start time, end time and total time per task
+Follow @TECHNICAL_SPEC.md for implementation details. Work on independent tasks in parallel when possible, and document all progress in PROGRESS.md.
+For each task, record: Real start time, End time, Total duration
+Commit and push changes after completing each task.

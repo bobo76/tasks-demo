@@ -35,8 +35,8 @@ export class AddNewTaskComponent implements OnInit {
 
   ngOnInit(): void {
     this.addNewTask = this.formBuilder.group({
-      title: ['', [Validators.required, Validators.maxLength(15)]],
-      description: ['', [Validators.required, Validators.maxLength(15)]]
+      title: ['', [Validators.required, Validators.maxLength(100)]],
+      description: ['', [Validators.maxLength(500)]]
     })
   }
 
@@ -61,9 +61,7 @@ export class AddNewTaskComponent implements OnInit {
   }
 
   backToDashboard() {
-    this.tasksService.allNewTasks();
-
-    this.router.navigate([''],);
+    this.router.navigate(['']);
   }
 
 }
