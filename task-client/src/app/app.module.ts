@@ -10,13 +10,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TasksBoardComponent } from './components/tasks-board/tasks-board.component';
 import { TasksService } from './common/services/tasks.service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ClockComponent } from './components/clock/clock.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     AddNewTaskComponent,
-    TasksBoardComponent
+    TasksBoardComponent,
+    ClockComponent
   ],
   imports: [
     BrowserModule,
