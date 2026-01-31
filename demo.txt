@@ -1,7 +1,15 @@
-I need to have a task-client
-run npm install
-npm start and demo d&d + demo bug
+open vs code to ~./claude
+delete readme.md
 
-Use skill interview on @plan.md, Write plan in : TECHNICAL_SPEC.md
+in task-client
+  npm install
+  npm start
+  demo -> small bug
 
-Follow @TECHNICAL_SPEC.md, do parallel work when possible, write progress in PROGRESS.md. Write reel start time, end time and total time per task
+/init
+
+# Use skill interview on @plan.md, Write plan in : TECHNICAL_SPEC.md
+
+/context
+
+# Follow @TECHNICAL_SPEC.md, do parallel work when possible, write progress in PROGRESS.md. Write reel start time, end time and total time per task
