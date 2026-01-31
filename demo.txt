@@ -8,6 +8,8 @@ in task-client
 
 /init
 
+let's plan work in @plan.md, ask questions if needed
+
 # Use skill interview on @plan.md, Write plan in : TECHNICAL_SPEC.md
 
 /context
