@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bash:*)",
+      "Bash(cat:*)",
+      "Bash(chmod:*)",
+      "Bash(curl:*)",
+      "Bash(dpkg:*)",
+      "Bash(java:*)",
+      "Bash(kill:*)",
+      "Bash(ls:*)",
+      "Bash(lsof:*)",
+      "Bash(mvn:*)",
+      "Bash(ng:*)",
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(nvm:*)",
+      "Bash(pgrep:*)",
+      "Bash(pkill:*)",
+      "Bash(python3:*)",
+      "Bash(test:*)",
+      "Bash(tree:*)",
+      "Bash(xargs:*)",
+      "Bash(yarn:*)",
+      "Skill(code-review)",
+      "WebFetch(domain:code.claude.com)",
+      "Bash(npm test)",
+      "Bash(mvn clean package:*)",
+      "Bash(mvn test:*)",
+      "Bash(npm test:*)",
+      "Bash(mvn checkstyle:check:*)"
+    ]
+  }
+}

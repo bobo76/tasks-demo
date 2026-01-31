@@ -13,3 +13,25 @@ in task-client
 /context
 
 # Follow @TECHNICAL_SPEC.md, do parallel work when possible, write progress in PROGRESS.md. Write reel start time, end time and total time per task
+
+
+netstat -ano | findstr :4300
+taskkill //PID 30812 //F
+
+
+Verification Commands
+
+# Start backend
+cd task-api && mvn spring-boot:run
+
+# Start frontend (in another terminal)
+cd task-client && npm start
+
+# Run backend tests
+cd task-api && mvn test
+
+# Run frontend tests
+cd task-client && npm test
+
+# Run E2E tests (requires backend + frontend running)
+cd task-e2e && npm test
