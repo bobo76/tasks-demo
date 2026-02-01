@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Plan</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        min-height: 100vh;
+        padding: 40px;
+        color: #fff;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 40px;
+        font-size: 2.5rem;
+        color: #00d9ff;
+        text-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+      }
+      .columns {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .column {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 16px;
+        padding: 24px;
+        width: 340px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+      }
+      .column-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .column-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 600;
+      }
+      .column.backend .column-icon {
+        background: linear-gradient(135deg, #6db33f, #5a9a32);
+      }
+      .column.frontend .column-icon {
+        background: linear-gradient(135deg, #dd0031, #c3002f);
+      }
+      .column-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+      .tasks {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .task {
+        padding: 16px;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        border-left: 3px solid;
+        transition: background 0.2s;
+      }
+      .task:hover {
+        background: rgba(0, 0, 0, 0.3);
+      }
+      .column.backend .task {
+        border-left-color: #6db33f;
+      }
+      .column.frontend .task {
+        border-left-color: #dd0031;
+      }
+      .task-title {
+        font-size: 0.95rem;
+        line-height: 1.5;
+        color: #eee;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Project Plan</h1>
+    <div class="columns">
+      <div class="column backend">
+        <div class="column-header">
+          <div class="column-icon">BE</div>
+          <div class="column-title">Backend</div>
+        </div>
+        <div class="tasks">
+          <div class="task">
+            <div class="task-title">
+              Build Spring Boot API with Java 17 and Lombok
+            </div>
+          </div>
+          <div class="task">
+            <div class="task-title">Configure H2 database with seed data</div>
+          </div>
+          <div class="task">
+            <div class="task-title">Add unit tests to task-api</div>
+          </div>
+        </div>
+      </div>
+      <div class="column frontend">
+        <div class="column-header">
+          <div class="column-icon">FE</div>
+          <div class="column-title">Frontend</div>
+        </div>
+        <div class="tasks">
+          <div class="task">
+            <div class="task-title">Fix memory leaks, type safety, and drag-drop persistence</div>
+          </div>
+          <div class="task">
+            <div class="task-title">Migrate to Angular 19</div>
+          </div>
+          <div class="task">
+            <div class="task-title">Connect to Spring Boot API</div>
+          </div>
+          <div class="task">
+            <div class="task-title">Set up Jest and add unit tests</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

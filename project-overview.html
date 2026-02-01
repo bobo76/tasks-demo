@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Management App - Architecture Overview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px;
+            color: #fff;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            color: #00d9ff;
+            text-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+        }
+        .architecture {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .module {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            width: 380px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .module:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        .module-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .module-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        .frontend .module-icon { background: linear-gradient(135deg, #dd0031, #c3002f); }
+        .backend .module-icon { background: linear-gradient(135deg, #6db33f, #5a9a32); }
+        .e2e .module-icon { background: linear-gradient(135deg, #45ba4b, #2d7d32); }
+        .module-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        .module-subtitle {
+            font-size: 0.85rem;
+            color: #888;
+        }
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .tech-tag {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: #aaa;
+        }
+        .component-list {
+            list-style: none;
+        }
+        .component-list li {
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border-left: 3px solid;
+            transition: background 0.2s;
+        }
+        .component-list li:hover {
+            background: rgba(0, 0, 0, 0.3);
+        }
+        .frontend .component-list li { border-left-color: #dd0031; }
+        .backend .component-list li { border-left-color: #6db33f; }
+        .e2e .component-list li { border-left-color: #45ba4b; }
+        .component-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .component-desc {
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        /* Connection arrows section */
+        .connection-section {
+            margin-top: 50px;
+            text-align: center;
+        }
+        .connection-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .connection-title {
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+            color: #00d9ff;
+        }
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .flow-box {
+            padding: 20px 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            min-width: 160px;
+        }
+        .flow-box.browser {
+            background: linear-gradient(135deg, #dd0031, #c3002f);
+        }
+        .flow-box.api {
+            background: linear-gradient(135deg, #6db33f, #5a9a32);
+        }
+        .flow-box.db {
+            background: linear-gradient(135deg, #0078d7, #005a9e);
+        }
+        .flow-arrow {
+            font-size: 2rem;
+            color: #00d9ff;
+        }
+        .port-label {
+            font-size: 0.75rem;
+            color: #aaa;
+            margin-top: 4px;
+        }
+
+        /* Features section */
+        .features-section {
+            margin-top: 50px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .features-title {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+            color: #00d9ff;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .feature-card h4 {
+            color: #00d9ff;
+            margin-bottom: 8px;
+        }
+        .feature-card p {
+            color: #888;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Task Management App</h1>
+
+    <div class="architecture">
+        <!-- Frontend Module -->
+        <div class="module frontend">
+            <div class="module-header">
+                <div class="module-icon">A</div>
+                <div>
+                    <div class="module-title">Frontend</div>
+                    <div class="module-subtitle">task-client/</div>
+                </div>
+            </div>
+            <div class="tech-stack">
+                <span class="tech-tag">Angular 19</span>
+                <span class="tech-tag">Angular CDK</span>
+                <span class="tech-tag">Material</span>
+                <span class="tech-tag">Signals</span>
+                <span class="tech-tag">Jest</span>
+            </div>
+            <ul class="component-list">
+                <li>
+                    <div class="component-name">TasksBoardComponent</div>
+                    <div class="component-desc">Kanban board with 3 columns (New, In Progress, Done) and drag-drop</div>
+                </li>
+                <li>
+                    <div class="component-name">AddNewTaskComponent</div>
+                    <div class="component-desc">Form for creating new tasks with validation</div>
+                </li>
+                <li>
+                    <div class="component-name">NavbarComponent</div>
+                    <div class="component-desc">Top navigation bar with links</div>
+                </li>
+                <li>
+                    <div class="component-name">TasksService</div>
+                    <div class="component-desc">HTTP client for CRUD operations</div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Backend Module -->
+        <div class="module backend">
+            <div class="module-header">
+                <div class="module-icon">S</div>
+                <div>
+                    <div class="module-title">Backend</div>
+                    <div class="module-subtitle">task-api/</div>
+                </div>
+            </div>
+            <div class="tech-stack">
+                <span class="tech-tag">Spring Boot 3.2</span>
+                <span class="tech-tag">Java 17</span>
+                <span class="tech-tag">JPA</span>
+                <span class="tech-tag">H2 Database</span>
+                <span class="tech-tag">Lombok</span>
+            </div>
+            <ul class="component-list">
+                <li>
+                    <div class="component-name">TaskController</div>
+                    <div class="component-desc">REST endpoints at /api/tasks</div>
+                </li>
+                <li>
+                    <div class="component-name">TaskService</div>
+                    <div class="component-desc">Business logic with transactions</div>
+                </li>
+                <li>
+                    <div class="component-name">TaskRepository</div>
+                    <div class="component-desc">JPA data access layer</div>
+                </li>
+                <li>
+                    <div class="component-name">Task Entity</div>
+                    <div class="component-desc">id, title, description, status, timestamps</div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- E2E Module -->
+        <div class="module e2e">
+            <div class="module-header">
+                <div class="module-icon">P</div>
+                <div>
+                    <div class="module-title">E2E Tests</div>
+                    <div class="module-subtitle">task-e2e/</div>
+                </div>
+            </div>
+            <div class="tech-stack">
+                <span class="tech-tag">Playwright</span>
+                <span class="tech-tag">TypeScript</span>
+                <span class="tech-tag">Page Objects</span>
+            </div>
+            <ul class="component-list">
+                <li>
+                    <div class="component-name">view-tasks.spec.ts</div>
+                    <div class="component-desc">Test viewing columns and tasks</div>
+                </li>
+                <li>
+                    <div class="component-name">create-task.spec.ts</div>
+                    <div class="component-desc">Test task creation workflow</div>
+                </li>
+                <li>
+                    <div class="component-name">drag-drop.spec.ts</div>
+                    <div class="component-desc">Test drag-drop between columns</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Connection Flow -->
+    <div class="connection-section">
+        <div class="connection-box">
+            <h3 class="connection-title">Communication Flow</h3>
+            <div class="flow-diagram">
+                <div class="flow-box browser">
+                    Angular App
+                    <div class="port-label">:4300</div>
+                </div>
+                <div class="flow-arrow">&#8594;</div>
+                <div class="flow-box api">
+                    Spring Boot
+                    <div class="port-label">:8090/api</div>
+                </div>
+                <div class="flow-arrow">&#8594;</div>
+                <div class="flow-box db">
+                    H2 Database
+                    <div class="port-label">In-Memory</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features -->
+    <div class="features-section">
+        <h3 class="features-title">Key Features</h3>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h4>Kanban Board</h4>
+                <p>Visual task management with three status columns</p>
+            </div>
+            <div class="feature-card">
+                <h4>Drag & Drop</h4>
+                <p>Move tasks between columns using Angular CDK</p>
+            </div>
+            <div class="feature-card">
+                <h4>Task CRUD</h4>
+                <p>Create, read, update, and delete tasks</p>
+            </div>
+            <div class="feature-card">
+                <h4>RESTful API</h4>
+                <p>Full REST endpoints with proper HTTP methods</p>
+            </div>
+            <div class="feature-card">
+                <h4>Reactive State</h4>
+                <p>Angular Signals for reactive updates</p>
+            </div>
+            <div class="feature-card">
+                <h4>Full Test Coverage</h4>
+                <p>Unit tests + Playwright E2E tests</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

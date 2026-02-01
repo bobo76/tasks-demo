@@ -10,25 +10,27 @@
       "Bash(kill:*)",
       "Bash(ls:*)",
       "Bash(lsof:*)",
+      "Bash(mvn checkstyle:check:*)",
+      "Bash(mvn clean package:*)",
+      "Bash(mvn test:*)",
       "Bash(mvn:*)",
       "Bash(ng:*)",
+      "Bash(npm test:*)",
+      "Bash(npm test)",
       "Bash(npm:*)",
       "Bash(npx:*)",
       "Bash(nvm:*)",
       "Bash(pgrep:*)",
       "Bash(pkill:*)",
       "Bash(python3:*)",
+      "Bash(taskkill:*)",
       "Bash(test:*)",
       "Bash(tree:*)",
       "Bash(xargs:*)",
       "Bash(yarn:*)",
       "Skill(code-review)",
       "WebFetch(domain:code.claude.com)",
-      "Bash(npm test)",
-      "Bash(mvn clean package:*)",
-      "Bash(mvn test:*)",
-      "Bash(npm test:*)",
-      "Bash(mvn checkstyle:check:*)"
+      "Bash(cmd //c \"rmdir /s /q node_modules\")"
     ]
   }
 }

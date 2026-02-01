@@ -29,3 +29,6 @@ yarn-error.log*
 
 # Java
 target/
+
+# playwright
+test-results/
