@@ -49,6 +49,6 @@ task-client/
 
 ## Tech Stack
 
-- Angular 17 with Angular Material and CDK
+- Angular 19 with Angular Material and CDK
 - json-server for mock REST API
 - Karma/Jasmine for unit tests

@@ -4,6 +4,7 @@ in task-client
   npm install
   npm start
   demo -> small bug
+  npm test -> test faill
 
 show plan.md
 set to plan mode
@@ -53,10 +54,6 @@ cd task-e2e && npm test
 
 # playwright only once
 npx playwright install
-
-
-
-Create a Playwright project in the task-e2e directory with e2e tests for the client. Configure it to run only on Chromium, ensure all tests pass.
 
 Stop Condition:
 

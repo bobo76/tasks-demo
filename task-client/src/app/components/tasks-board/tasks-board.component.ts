@@ -6,6 +6,7 @@ import { concatMap, startWith, Subject } from 'rxjs';
 
 @Component({
   selector: 'tasks-board',
+  standalone: false,
   templateUrl: './tasks-board.component.html',
   styleUrls: ['./tasks-board.component.scss']
 })

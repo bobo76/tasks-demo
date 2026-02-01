@@ -12,6 +12,7 @@ const emptyTask: ICreateTask = {
 
 @Component({
   selector: 'add-new-task',
+  standalone: false,
   templateUrl: './add-new-task.component.html',
   styleUrls: ['./add-new-task.component.scss']
 })
