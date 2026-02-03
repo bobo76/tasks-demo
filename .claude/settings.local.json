@@ -30,7 +30,8 @@
       "Bash(yarn:*)",
       "Skill(code-review)",
       "WebFetch(domain:code.claude.com)",
-      "Bash(cmd //c \"rmdir /s /q node_modules\")"
+      "Bash(cmd //c \"rmdir /s /q node_modules\")",
+      "Bash(./mvnw test:*)"
     ]
   }
 }
